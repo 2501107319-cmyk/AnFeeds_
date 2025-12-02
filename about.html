@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="about.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>About Us - AnFeeds | Anime Reviews & Community</title>
+    <meta name="description" content="Learn about AnFeeds, your ultimate destination for anime reviews, ratings, and community engagement.">
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <div class="navbar">
+        <div class="navbar-container">
+            <div class="logo-container">
+                <h1 class="logo" onclick="window.location.href='index.html'" style="cursor: pointer;">AnFeeds</h1>
+            </div>
+            <div class="menu-container">
+                <ul class="menu-list">
+                    <li class="menu-list-item"><a href="index.html">Home</a></li>
+                    <li class="menu-list-item" data-genre="all"><a href="index.html#action">Action</a></li>
+                    <li class="menu-list-item" data-genre="horror"><a href="index.html#horror">Horror</a></li>
+                    <li class="menu-list-item" data-genre="comedy"><a href="index.html#comedy">Comedy</a></li>
+                    <li class="menu-list-item" data-genre="fantasy"><a href="index.html#fantasy">Fantasy</a></li>
+                    <li class="menu-list-item active"><a href="about.html">About Us</a></li>
+                </ul>
+            </div>
+            <div class="profile-container">
+                <div class="auth-section" id="authSection">
+                    <button class="login-button" id="loginButton" onclick="openLoginModal()">
+                        <i class="fas fa-sign-in-alt"></i>
+                        Sign In
+                    </button>
+                </div>
+                <div class="toggle" onclick="toggleDarkMode()">
+                    <i class="fas fa-moon toggle-icon"></i>
+                    <i class="fas fa-sun toggle-icon"></i>
+                    <div class="toggle-ball"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- About Hero Section -->
+    <div class="about-hero">
+        <div class="about-hero-content">
+            <h1>About AnFeeds</h1>
+            <p>Your Ultimate Destination for Anime Reviews, Ratings & Community</p>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="content-container about-content">
+            
+            <!-- Mission Section -->
+            <section class="about-section">
+                <div class="section-content">
+                    <h2>Our Mission</h2>
+                    <p>
+                        At AnFeeds, we believe that anime is more than just entertainment—it's a cultural phenomenon that brings people together. 
+                        Our mission is to create a vibrant community where anime enthusiasts can share their passion, discover new series, 
+                        and engage in meaningful discussions about their favorite shows.
+                    </p>
+                    <p>
+                        We are committed to providing comprehensive reviews, honest ratings, and a platform for anime lovers worldwide 
+                        to express their thoughts and connect with like-minded individuals.
+                    </p>
+                </div>
+            </section>
+
+            <!-- Vision Section -->
+            <section class="about-section">
+                <div class="section-content">
+                    <h2>Our Vision</h2>
+                    <p>
+                        To become the most trusted and beloved anime community platform where fans can:
+                    </p>
+                    <ul class="vision-list">
+                        <li><i class="fas fa-check-circle"></i> Discover hidden gems and trending anime across all genres</li>
+                        <li><i class="fas fa-check-circle"></i> Share authentic reviews and connect with fellow anime enthusiasts</li>
+                        <li><i class="fas fa-check-circle"></i> Access comprehensive information about anime, ratings, and streaming availability</li>
+                        <li><i class="fas fa-check-circle"></i> Build lasting friendships within a respectful and welcoming community</li>
+                        <li><i class="fas fa-check-circle"></i> Support content creators and celebrate anime culture globally</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- What We Offer -->
+            <section class="about-section">
+                <h2>What We Offer</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <i class="fas fa-star"></i>
+                        <h3>Expert Reviews</h3>
+                        <p>Detailed and honest reviews of the latest and greatest anime series from our passionate community members.</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-users"></i>
+                        <h3>Active Community</h3>
+                        <p>Connect with thousands of anime fans, share your thoughts, and discover new perspectives on your favorite shows.</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-tv"></i>
+                        <h3>Comprehensive Database</h3>
+                        <p>Browse hundreds of anime across different genres, years, and ratings to find your next favorite series.</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-link"></i>
+                        <h3>Streaming Links</h3>
+                        <p>Easily find where to watch your favorite anime on popular streaming platforms like Crunchyroll, Netflix, and more.</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-comments"></i>
+                        <h3>Discussion Threads</h3>
+                        <p>Engage in meaningful conversations with other fans, discuss plot points, and share theories about your favorite anime.</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-search"></i>
+                        <h3>Smart Search</h3>
+                        <p>Filter and discover anime by genre, year, rating, and more to find exactly what you're looking for.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Core Values -->
+            <section class="about-section">
+                <h2>Our Core Values</h2>
+                <div class="values-grid">
+                    <div class="value-card">
+                        <h3>Authenticity</h3>
+                        <p>We believe in honest, genuine reviews and discussions that reflect the real opinions of our community.</p>
+                    </div>
+                    <div class="value-card">
+                        <h3>Inclusivity</h3>
+                        <p>Everyone is welcome here. We celebrate diversity and respect all perspectives within our community.</p>
+                    </div>
+                    <div class="value-card">
+                        <h3>Passion</h3>
+                        <p>We love anime as much as you do, and our passion drives us to constantly improve and expand our platform.</p>
+                    </div>
+                    <div class="value-card">
+                        <h3>Community</h3>
+                        <p>We are stronger together. We foster meaningful connections and support among all our members.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Why Choose Us -->
+            <section class="about-section">
+                <h2>Why Choose AnFeeds?</h2>
+                <div class="why-choose-content">
+                    <div class="why-item">
+                        <div class="why-number">1</div>
+                        <h3>Trusted Community</h3>
+                        <p>Join thousands of verified anime fans who share genuine reviews and recommendations.</p>
+                    </div>
+                    <div class="why-item">
+                        <div class="why-number">2</div>
+                        <h3>Latest Updates</h3>
+                        <p>Stay informed with the newest anime releases, reviews, and community discussions.</p>
+                    </div>
+                    <div class="why-item">
+                        <div class="why-number">3</div>
+                        <h3>Easy Navigation</h3>
+                        <p>Our user-friendly interface makes it simple to find, rate, and review your favorite anime.</p>
+                    </div>
+                    <div class="why-item">
+                        <div class="why-number">4</div>
+                        <h3>Safe Environment</h3>
+                        <p>We maintain a respectful, welcoming community where everyone can express their love for anime.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Contact Section -->
+            <section class="about-section contact-section" id="contact">
+                <h2>Get In Touch</h2>
+                <p>Have questions or suggestions? We'd love to hear from you!</p>
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <p>Phone: <a href="tel:+63939759669">+63 939 759 669</a></p>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <p>Phone: <a href="tel:+63706036524">+63 706 036 524</a></p>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-facebook"></i>
+                        <p>Facebook: <a href="https://web.facebook.com/profile.php?id=61584730341800" target="_blank">AnFeeds Community</a></p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CTA Section -->
+            <section class="about-section cta-section">
+                <h2>Join Our Community Today</h2>
+                <p>Become part of the AnFeeds family and start sharing your anime passion with thousands of enthusiasts worldwide.</p>
+                <button class="cta-button" onclick="window.location.href='index.html'">
+                    <i class="fas fa-arrow-right"></i> Explore Anime
+                </button>
+            </section>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>AnFeeds</h4>
+                <p>Your ultimate anime review and community platform.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Follow Us</h4>
+                <div class="social-links">
+                    <a href="#" target="_blank"><i class="fab fa-facebook"></i></a>
+                    <a href="#" target="_blank"><i class="fab fa-twitter"></i></a>
+                    <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+                    <a href="#" target="_blank"><i class="fab fa-discord"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 AnFeeds. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+    <script>
+        // Apply saved dark mode preference on load
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedTheme = localStorage.getItem('darkMode');
+            if (savedTheme === 'light') {
+                applyAboutLightMode();
+            }
+        });
+
+        function applyAboutLightMode() {
+            document.body.classList.add('active');
+            document.querySelector('.navbar-container').classList.add('active');
+            document.querySelector('.toggle').classList.add('active');
+            document.querySelector('.toggle-ball').classList.add('active');
+        }
+
+        // Override toggleDarkMode for about page
+        const originalToggleDarkMode = window.toggleDarkMode;
+        window.toggleDarkMode = function() {
+            const isActive = document.querySelector('.toggle').classList.toggle('active');
+            document.body.classList.toggle('active');
+            document.querySelector('.navbar-container').classList.toggle('active');
+            document.querySelector('.toggle-ball').classList.toggle('active');
+            localStorage.setItem('darkMode', isActive ? 'light' : 'dark');
+        };
+    </script>
+</body>
+</html>
