@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>AnFeeds - Anime Reviews & Community</title>
+    <meta name="description" content="Discover anime reviews, ratings, and join our community of anime enthusiasts on AnFeeds.">
+</head>
+
+<body>
+    <!-- Login Modal -->
+    <div class="login-modal" id="loginModal">
+        <div class="login-modal-overlay" onclick="closeLoginModal()"></div>
+        <div class="login-modal-content">
+            <div class="login-header">
+                <h2 id="loginTitle">Welcome Back</h2>
+                <button class="close-btn" onclick="closeLoginModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <form id="loginForm" class="login-form">
+                <div class="input-group" id="nameGroup" style="display: none;">
+                    <i class="fas fa-user"></i>
+                    <input type="text" id="fullName" placeholder="Full Name" required>
+                </div>
+                
+                <div class="input-group">
+                    <i class="fas fa-envelope"></i>
+                    <input type="email" id="email" placeholder="Email Address" required>
+                </div>
+                
+                <div class="input-group">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="password" placeholder="Password" required>
+                    <button type="button" class="toggle-password" onclick="togglePassword()">
+                        <i class="fas fa-eye" id="passwordToggle"></i>
+                    </button>
+                </div>
+                
+                <button type="submit" class="login-btn" id="loginBtn">
+                    <span class="btn-text">Sign In</span>
+                    <div class="btn-loader" style="display: none;">
+                        <i class="fas fa-spinner fa-spin"></i>
+                    </div>
+                </button>
+            </form>
+            
+            <div class="login-footer">
+                <p id="switchText">Don't have an account? 
+                    <button class="switch-btn" onclick="switchMode()">Sign Up</button>
+                </p>
+            </div>
+            
+            <div class="demo-info">
+                <p>Join our community to share reviews and connect with fellow anime lovers!</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Anime Detail Modal -->
+    <div class="movie-detail-modal" id="movieDetailModal">
+        <div class="movie-detail-overlay" onclick="closeMovieDetail()"></div>
+        <div class="movie-detail-content">
+            <button class="close-btn" onclick="closeMovieDetail()">
+                <i class="fas fa-times"></i>
+            </button>
+            
+            <div class="movie-detail-hero">
+                <img id="detailMovieImage" src="" alt="" class="detail-movie-bg">
+                <div class="detail-overlay"></div>
+                <div class="detail-info">
+                    <h1 id="detailMovieTitle"></h1>
+                    <div class="detail-meta">
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <span id="detailMovieRating"></span>
+                        </div>
+                        <div class="year">
+                            <i class="fas fa-calendar"></i>
+                            <span id="detailMovieYear"></span>
+                        </div>
+                        <div class="duration">
+                            <i class="fas fa-tv"></i>
+                            <span id="detailEpisodes">Episodes</span>
+                        </div>
+                        <div class="genre">
+                            <p><strong>Genre:</strong> <span id="detailGenre"></span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="movie-detail-body">
+                <div class="synopsis">
+                    <h2>Synopsis</h2>
+                    <p id="detailMovieDesc"></p>
+                </div>
+                
+                <div class="where-to-watch">
+                    <h2>Where to Watch</h2>
+                    <div class="streaming-platforms">
+                        <a href="https://crunchyroll.com" target="_blank" class="platform available">
+                            <i class="fas fa-play"></i>
+                            <span>Crunchyroll</span>
+                        </a>
+                        <a href="https://funimation.com" target="_blank" class="platform available">
+                            <i class="fas fa-play"></i>
+                            <span>Funimation</span>
+                        </a>
+                        <a href="https://netflix.com" target="_blank" class="platform available">
+                            <i class="fas fa-play"></i>
+                            <span>Netflix</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Image & Source Credits -->
+                <div class="source-credits">
+                    <h2>Image & Source Credits</h2>
+                    <p><strong>Anime Information:</strong> <a href="https://myanimelist.net/" target="_blank">MyAnimeList</a>, <a href="https://www.animenewsnetwork.com/" target="_blank">Anime News Network</a></p>
+                    <p><strong>Images & GIFs:</strong> <a href="https://tenor.com/" target="_blank">Tenor</a>, <a href="https://pinterest.com/" target="_blank">Pinterest</a></p>
+                    <p><strong>Streaming Platforms:</strong> <a href="https://www.netflix.com/" target="_blank">Netflix</a>, <a href="https://www.crunchyroll.com/" target="_blank">Crunchyroll</a>, <a href="https://www.funimation.com/" target="_blank">Funimation</a></p>
+                </div>
+                
+                <!-- Comments Section -->
+                <div class="comments-section">
+                    <div class="comments-header">
+                        <h2>Reviews & Comments</h2>
+                        <div class="average-rating">
+                            <i class="fas fa-star"></i>
+                            <span>0.00 (0 reviews)</span>
+                        </div>
+                    </div>
+                    
+                    <div class="add-comment" id="addCommentSection">
+                        <div class="comment-form" id="commentForm" style="display: none;">
+                            <div class="user-avatar">
+                                <img src="https://via.placeholder.com/50" alt="User">
+                            </div>
+                            <div class="comment-input-area">
+                                <div class="rating-input">
+                                    <span>Your Rating:</span>
+                                    <div class="stars-input">
+                                        <i class="fas fa-star" data-rating="1"></i>
+                                        <i class="fas fa-star" data-rating="2"></i>
+                                        <i class="fas fa-star" data-rating="3"></i>
+                                        <i class="fas fa-star" data-rating="4"></i>
+                                        <i class="fas fa-star" data-rating="5"></i>
+                                    </div>
+                                </div>
+                                <textarea placeholder="Share your thoughts about this anime..." id="commentText"></textarea>
+                                <div class="comment-actions">
+                                    <button class="post-comment-btn" onclick="postComment()">Post Review</button>
+                                    <button class="cancel-comment-btn" onclick="cancelComment()">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="login-prompt" id="loginPrompt">
+                            <i class="fas fa-comment"></i>
+                            <p>Sign in to share your thoughts and rate this anime</p>
+                            <button class="login-prompt-btn" onclick="openLoginModal()">Sign In to Comment</button>
+                        </div>
+                    </div>
+                    
+                    <div class="comments-list" id="commentsList">
+                        <!-- Comments will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Navigation -->
+    <div class="navbar">
+        <div class="navbar-container">
+            <div class="logo-container">
+                <h1 class="logo" onclick="window.location.href='index.html'" style="cursor: pointer;">AnFeeds</h1>
+            </div>
+            <div class="menu-container">
+                <ul class="menu-list">
+                    <li class="menu-list-item active" data-genre="all"><a href="index.html">All</a></li>
+                    <li class="menu-list-item" data-genre="action"><a href="index.html#action">Action</a></li>
+                    <li class="menu-list-item" data-genre="horror"><a href="index.html#horror">Horror</a></li>
+                    <li class="menu-list-item" data-genre="comedy"><a href="index.html#comedy">Comedy</a></li>
+                    <li class="menu-list-item" data-genre="fantasy"><a href="index.html#fantasy">Fantasy</a></li>
+                    <li class="menu-list-item" data-genre="romance"><a href="index.html#romance">Romance</a></li>
+                    <li class="menu-list-item"><a href="about.html">About Us</a></li>
+                </ul>
+            </div>
+            <div class="profile-container">
+                <div class="auth-section" id="authSection">
+                    <button class="login-button" id="loginButton" onclick="openLoginModal()">
+                        <i class="fas fa-sign-in-alt"></i>
+                        Sign In
+                    </button>
+                    <div class="user-profile" id="userProfile" style="display: none;">
+                        <img class="profile-picture" src="https://via.placeholder.com/40" alt="Profile">
+                        <div class="profile-text-container">
+                            <span class="profile-text" id="userName">User</span>
+                            <button class="logout-btn" onclick="logout()">Logout</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="toggle" onclick="toggleDarkMode()">
+                    <i class="fas fa-moon toggle-icon"></i>
+                    <i class="fas fa-sun toggle-icon"></i>
+                    <div class="toggle-ball"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <!-- Search bar at top -->
+        <div class="sidebar-search-container" id="sidebarSearchContainer">
+            <input id="sidebar-search" type="text" placeholder="Search anime...">
+        </div>
+
+        <!-- Sidebar menu icons -->
+        <i class="left-menu-icon fas fa-search" title="Search" onclick="toggleSearch()"></i>
+        <i class="left-menu-icon fas fa-home" title="Home" onclick="scrollToHome()"></i>
+        <i class="left-menu-icon fas fa-tv" title="Anime" onclick="scrollToAnime()"></i>
+    </div>
+    
+    <!-- Main Container -->
+    <div class="container">
+        <div class="content-container">
+            <!-- Featured Content -->
+           <div class="featured-content" style="background: linear-gradient(to bottom, rgba(0,0,0,0), #151515), url(attack.jpg);">
+                    <h1>Attack on Titan</h1> 
+                    <p class="featured-desc">Dive into the world of anime with our comprehensive reviews and ratings. From epic shonen adventures to heartwarming slice-of-life stories, discover your next favorite anime through passionate reviews from fellow otaku.</p>
+                    <button class="featured-button" onclick="openAnimeDetail('Attack on Titan', 'https://media1.giphy.com/media/v1.Y2lkPTZjMDliOTUyZHZmbWQ0MzZlZjVsaGRnN3Rkb2F0OGw4NTdveDI4c2xqbWhtOHkxOSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/9SvQFZ5xoGHza/giphy.gif', 9.0, 2013, 'Humanity fights for survival against giant humanoid Titans that have brought civilization to the brink of extinction.', '87 Episodes','Dark Fantasy, Action, Drama')">READ REVIEW</button>
+                </div>
+
+           <!-- Action Anime -->
+                <div class="movie-list-container" data-genre="action" id="action">
+                    <h1 class="movie-list-title">ACTION ANIME</h1>
+                    <div class="movie-list-wrapper">
+                        <div class="movie-list">
+                            <div class="movie-list-item" onclick="openAnimeDetail('Demon Slayer', 'https://i.pinimg.com/originals/93/7a/0f/937a0f64c67fc80a959be30c17c79a93.gif',9.0, 2019, 'Set in Taishō-era Japan, Tanjiro Kamado returns home to find his family slaughtered by demons, with only his sister Nezuko surviving but transformed into a demon. Despite her demonic nature, Nezuko retains her humanity and refuses to consume humans. Tanjiro joins the Demon Slayer Corps to find a cure for his sister and seek vengeance. (Source: MyAnimeList, Viz Media)', '44 Episodes','Adventure, Dark fantasy, Martial arts, Action, Demon')">
+                                <img class="movie-list-item-img" src="demob.jpg" alt="Demon Slayer">
+                                <span class="movie-list-item-title">Demon Slayer</span>
+                                <p class="movie-list-item-desc">Breathtaking animation and emotional storytelling make this one of the most visually stunning anime of recent years.</p>
+                                <button class="movie-list-item-button">READ REVIEW</button>
+                                <div class="movie-rating">
+                                    <i class="fas fa-star"></i>
+                                    <span>8.7</span>
+                                </div>
+                            </div>
+
+                            <div class="movie-list-item" onclick="openAnimeDetail('Jujutsu Kaisen', 'https://i.pinimg.com/originals/2a/cd/b9/2acdb9192f82fc1726058bb37e7a88aa.gif',8.5,2020,'High school student Yuji Itadori accidentally swallows a cursed finger and becomes the host of Ryomen Sukuna, a powerful curse. Despite the immense risk, he joins Tokyo Jujutsu High to protect others and find all of Sukunas fingers. Yuji trains alongside powerful sorcerers Megumi Fushiguro and Nobara Kugisaki while uncovering a sinister plot involving a thousand-year curse. (Source: MyAnimeList, MAPPA Studio)', '24 Episodes','Action, Supernatural')">
+                                <img class="movie-list-item-img" src="21.jpg" alt="Jujutsu Kaisen">
+                                <span class="movie-list-item-title">Jujutsu Kaisen</span>
+                                <p class="movie-list-item-desc">Dark supernatural themes combined with incredible fight choreography and character development.</p>
+                                <button class="movie-list-item-button">READ REVIEW</button>
+                                <div class="movie-rating">
+                                    <i class="fas fa-star"></i>
+                                    <span>8.5</span>
+                                </div>
+                            </div>
+
+                            <div class="movie-list-item" onclick="openAnimeDetail('My Hero Academia', 'https://i.pinimg.com/originals/ca/78/44/ca784496e88aec481b29fcef7e8df280.gif', 8.4, 2016, 'In a world where 80% of the population possesses superpowers called Quirks, Izuku Midoriya is born without one. Despite being bullied for his weakness, Izuku dreams of becoming a hero. After meeting his idol All Might and receiving his power, Izuku enrolls in U.A. High School to train as a professional hero alongside his childhood rival Katsuki Bakugo. (Source: MyAnimeList, Bones Studio)', '138 Episodes','Superhero, Action-Adventure, Science Fantasy, School Life')">
+                                <img class="movie-list-item-img" src="20.jpg" alt="My Hero Academia">
+                                <span class="movie-list-item-title">My Hero Academia</span>
+                                <p class="movie-list-item-desc">Inspiring superhero story with excellent character development and thrilling action sequences.</p>
+                                <button class="movie-list-item-button">READ REVIEW</button>
+                                <div class="movie-rating">
+                                    <i class="fas fa-star"></i>
+                                    <span>8.4</span>
+                                </div>
+                            </div>
+
+                            <div class="movie-list-item" onclick="openAnimeDetail('One Punch Man', 'https://i.pinimg.com/originals/99/7f/85/997f851b72323f141172c4cda712f6da.gif', 8.7, 2015, 'Saitama, an ordinary man who trained rigorously for three years, becomes an unstoppable superhero capable of defeating any opponent with a single punch. Bored with his overwhelming power and seeking a worthy challenge, Saitama joins the Hero Association. He mentors cyborg Genos while uncovering mysteries about increasingly powerful threats. (Source: MyAnimeList, J.C.Staff)', '24 Episodes','Action,Superhero,Comedy,Drama,Supernatural')">
+                                <img class="movie-list-item-img" src="one.webp" alt="One Punch Man">
+                                <span class="movie-list-item-title">One Punch Man</span>
+                                <p class="movie-list-item-desc">Satirical take on superhero genre with incredible animation and hilarious existential comedy.</p>
+                                <button class="movie-list-item-button">READ REVIEW</button>
+                                <div class="movie-rating">
+                                    <i class="fas fa-star"></i>
+                                    <span>8.7</span>
+                                </div>
+                            </div>
+
+                            <div class="movie-list-item" onclick="openAnimeDetail('Hunter x Hunter', 'https://www.gifcen.com/wp-content/uploads/2022/09/hunter-x-hunter-gif-8.gif', 9.0, 2011, 'Gon Freecss embarks on a journey to become a Hunter—an elite professional who undertakes dangerous missions—to find his father, Ging Freecss, who abandoned him years ago. Alongside friends Kurapika, Leorio, and Killua, Gon faces the brutal Hunter Exam before entering a world of complex conspiracies, supernatural abilities (Nen), and moral ambiguities. (Source: MyAnimeList, Madhouse)', '148 Episodes','Adventure,Action ,Martial Arts,Fantasy,Supernatural,Drama')">
+                                <img class="movie-list-item-img" src="hunter.jpg" alt="Hunter x Hunter">
+                                <span class="movie-list-item-title">Hunter x Hunter</span>
+                                <p class="movie-list-item-desc">Complex power system and mature storytelling that evolves from adventure to psychological thriller.</p>
+                                <button class="movie-list-item-button">READ REVIEW</button>
+                                <div class="movie-rating">
+                                    <i class="fas fa-star"></i>
+                                    <span>9.0</span>
+                                </div>
+                            </div>
+
+                            <div class="movie-list-item" onclick="openAnimeDetail('Naruto', 'https://pa1.aminoapps.com/5754/1fdd38a41cba4f560978a11e084dfc6aaa0105b4_hq.gif', 8.3, 2002, 'Naruto Uzumaki, a young ninja from the Hidden Leaf Village, aspires to become Hokage (village leader). Ostracized for harboring the Nine-Tailed Fox, a powerful demon sealed within him at birth, Naruto forms lifelong bonds with teammates Sasuke Uchiha and Sakura Haruno. Through perseverance and friendship, Naruto discovers his potential while the world faces increasing supernatural threats. (Source: MyAnimeList, Studio Pierrot)', '720 Episodes','Action,Adventure,Fantasy,Drama,Comedy,Martial Arts')">
+                                <img class="movie-list-item-img" src="49.jpg" alt="Naruto">
+                                <span class="movie-list-item-title">Naruto</span>
+                                <p class="movie-list-item-desc">Epic ninja saga that defined a generation with its themes of friendship, perseverance, and never giving up.</p>
+                                <button class="movie-list-item-button">READ REVIEW</button>
+                                <div class="movie-rating">
+                                    <i class="fas fa-star"></i>
+                                    <span>8.3</span>
+                                </div>
+                            </div>
+
+                            <div class="movie-list-item" onclick="openAnimeDetail('Dragon Ball Z', 'https://i.pinimg.com/originals/f2/e2/e2/f2e2e20d0018aaa18c309734ed23abae.gif', 8.7, 1989, 'Dragon Ball Z follows Goku and his friends as they defend Earth from increasingly powerful alien and supernatural threats. The series introduces transformative power levels (Super Saiyan), iconic tournaments, and explores themes of sacrifice and redemption. Gokus character evolution from martial artist to legendary warrior shaped the shonen genre. (Source: MyAnimeList, Toei Animation)', '291 Episodes','Action,Adventure,Fantasy,Drama,Comedy,Martial Arts')">
+                                <img class="movie-list-item-img" src="ball.webp" alt="Dragon Ball Z">
+                                <span class="movie-list-item-title">Dragon Ball Z</span>
+                                <p class="movie-list-item-desc">Legendary battle anime that set the standard for power scaling and epic transformations.</p>
+                                <button class="movie-list-item-button">READ REVIEW</button>
+                                <div class="movie-rating">
+                                    <i class="fas fa-star"></i>
+                                    <span>8.7</span>
+                                </div>
+                            </div>
+
+                            <div class="movie-list-item" onclick="openAnimeDetail('Tokyo Revengers', 'https://i.pinimg.com/originals/bf/2d/de/bf2dde2680f6eba730207cc40db98dfd.gif',9.0,2021,'Takemichi Hanagaki, a 26-year-old living a dead-end life, discovers his ex-girlfriend Hinata Tachibana was murdered by the Tokyo Manji Gang. After being pushed onto train tracks, he inexplicably time travels to his high school years. Armed with knowledge of the future, Takemichi infiltrates the gang to prevent tragedies and save Hinata, battling both fate and increasingly powerful adversaries. (Source: MyAnimeList, Liden Films)', '50 Episodes', 'Action, Drama, Romance, Delinquent/School Life, Supernatural' )">
+                                <img class="movie-list-item-img" src="37.jpg" alt="Tokyo Revengers">
+                                <span class="movie-list-item-title">Tokyo Revengers</span>
+                                <p class="movie-list-item-desc">Takemichi Hanagaki, a 26-year-old who learns his ex-girlfriend, Hinata Tachibana, has been murdered by a brutal gang called the Tokyo Manji Gang.</p>
+                                <button class="movie-list-item-button">READ REVIEW</button>
+                                <div class="movie-rating">
+                                    <i class="fas fa-star"></i>
+                                    <span>8.6</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Horror Anime -->
+                <div class="movie-list-container" data-genre="horror" id="horror">
+                    <h1 class="movie-list-title">HORROR ANIME</h1>
+                    <div class="movie-list-wrapper">
+                        <div class="movie-list">
+                            <div class="movie-list-item" onclick="openAnimeDetail('Uzumaki', 'https://media.tenor.com/prpIddlf9JYAAAAM/anime-uzumaki.gif',9.0, 2013,'Kirie Goshima becomes trapped in her hometown when an obsession with spirals consumes its residents, causing bizarre transformations and gruesome deaths. Based on Junji Ito acclaimed manga, the inhabitants become one with the spiral patterns, losing their humanity. Kirie must escape the towns inescapable spiral curse before she too succumbs. (Source: MyAnimeList, MAPPA Studio)','4 Episodes','Horror,Dark Fantasy,Mystery')">
+                                <img class="movie-list-item-img" src="u.jpg" alt="Uzumaki">
+                                <span class="movie-list-item-title">Uzumaki</span>
+                                <p class="movie-list-item-desc">Uzumaki is a horror manga that focuses on a town cursed by spirals. The story follows a young woman as she witnesses increasingly bizarre and disturbing events.</p>
+                                <button class="movie-list-item-button">READ REVIEW</button>
+                                <div class="movie-rating">
+                                    <i class="fas fa-star"></i>
+                                    <span>9.0</span>
+                                </div>
+                            </div>
+
+                            <div class="movie-list-item" onclick="openAnimeDetail('Another', 'https://64.media.tumblr.com/90b33d8e4deb60eba18a501dace0e8d2/tumblr_p05gcmqV2m1wexa8uo1_500.gifv', 8.5, 2012, 'In 1998, transfer student Kouichi Sakakibara joins Class 3-3 at Yomiyama North Middle School only to discover his classmates are being killed by a supernatural curse. Working with the mysterious outcast Mei Misaki, Kouichi must identify the extra dead person among his classmates and uncover the curse origin to end the deaths. Each discovery brings him closer to horrifying truths. (Source: MyAnimeList, P.I.C.S)','12 Episodes','Mystery, Horror, Thriller, Supernatural')">
+                                <img class="movie-list-item-img" src="52.jpg" alt="Another">
+                                <span class="movie-list-item-title">Another</span>
+                                <p class="movie-list-item-desc">A transfer student arrives at a new middle school and discovers a terrifying secret: his class is under a curse that causes gruesome and inexplicable deaths.</p>
+                                <button class="movie-list-item-button">READ REVIEW</button>
+                                <div class="movie-rating">
+                                    <i class="fas fa-star"></i>
+                                    <span>8.5</span>
+                                </div>
+                            </div>
+
+                            <div class="movie-list-item" onclick="openAnimeDetail('Perfect Blue', 'https://i.pinimg.com/originals/52/ce/ed/52ceed041d89c5bd9ecaf15d82ad17c8.gif', 8.5, 1997, 'Mima Kirigoe is the lead singer of the J-pop idol group CHAM!, but leaves the group to pursue a mature acting career. As she prepares for a role in a dark murder mystery TV show, the line between her identity and her fictional character blurs. Mysterious fans, doppelgangers, and psychological torment blur reality and fantasy. Directed by Satoshi Kon. (Source: MyAnimeList, Madhouse)', 'Movie','Psychological Thriller, Psychological Horror, Mystery, Crime Drama')">
+                                <img class="movie-list-item-img" src="51.jpg" alt="Perfect Blue">
+                                <span class="movie-list-item-title">Perfect Blue</span>
+                                <p class="movie-list-item-desc">A young Japanese singer is encouraged by her agent to quit singing and pursue an acting career, beginning with a role in a murder mystery TV show.</p>
+                                <button class="movie-list-item-button">READ REVIEW</button>
+                                <div class="movie-rating">
+                                    <i class="fas fa-star"></i>
+                                    <span>8.5</span>
+                                </div>
+                            </div>
+
+                            <div class="movie-list-item" onclick="openAnimeDetail('Housing Complex C', 'complex.jpg', 8.6, 2022, 'A mysterious young girl at a run-down seaside apartment complex possesses reality-warping powers that trap residents in a repeating time loop. Inspired by Lovecraftian horror, the series explores existential dread as inhabitants experience the same horrifying day repeatedly. The intricate mystery reveals cosmic horror themes and the sinister nature of their supernatural prison. (Source: MyAnimeList, J.C.Staff)', '4 Episodes', 'Mystery,Horror,Cosmic Horror' )">
+                                <img class="movie-list-item-img" src="56.jpg" alt="Housing Complex C">
+                                <span class="movie-list-item-title">Housing Complex C</span>
+                                <p class="movie-list-item-desc">A short horror anime miniseries that centers on a small, low-cost apartment complex in the fictional seaside town of Kurosaki.</p>
+                                <button class="movie-list-item-button">READ REVIEW</button>
+                                <div class="movie-rating">
+                                    <i class="fas fa-star"></i>
+                                    <span>8.6</span>
+                                </div>
+                            </div>
+
+                            <div class="movie-list-item" onclick="openAnimeDetail('High-rise Invasion', 'https://i.pinimg.com/originals/04/e9/f8/04e9f8c564777bb45f92d4797912874b.gif', 8.5, 2021, 'Protagonist Yuri Honjo wakes up in a world of interconnected high-rise buildings with no ground level visible. She and other trapped humans must fight for survival against emotionless masked figures that force people to commit suicide. While searching for her brother, Yuri uncovers the rules of this brutal death game and discovers there may be a way to escape. (Source: MyAnimeList, Gonzo)', '12 Episodes','Action, Survival, Horror, Mystery, Drama')">
+                                <img class="movie-list-item-img" src="55.jpg" alt="High-rise Invasion">
+                                <span class="movie-list-item-title">High-rise Invasion</span>
+                                <p class="movie-list-item-desc">A survival horror series where protagonist Yuri Honjo finds herself trapped in a world of interconnected skyscrapers with no ground access.</p>
+                                <button class="movie-list-item-button">READ REVIEW</button>
+                                <div class="movie-rating">
+                                    <i class="fas fa-star"></i>
+                                    <span>8.5</span>
+                                </div>
+                            </div>
+
+                            <div class="movie-list-item" onclick="openAnimeDetail('Parasyte', 'https://media1.tenor.com/m/lWydc6_QApMAAAAC/parasyte-shinichi.gif', 8.6, 2014, 'High school student Shinichi Izumi survives a parasitic invasion when a parasite fails to take his brain and instead bonds with his right hand (Migi). The series examines identity, morality, and the boundary between humanity and parasite as Shinichi confronts other parasites that prey on humans. Adapted from the manga by Hitoshi Iwaaki; animated by Madhouse. (Sources: MyAnimeList, Madhouse, Anime News Network)', '24 Episodes', 'Horror, Sci-Fi, Supernatural, Action')">
+                                <img class="movie-list-item-img" src="29.jpg" alt="Parasyte">
+                                <span class="movie-list-item-title">Parasyte</span>
+                                <p class="movie-list-item-desc">Shinichi Izumi's right hand becomes host to a parasite called Migi; together they face predatory parasites that threaten humanity while questioning what it means to be human.</p>
+                                <button class="movie-list-item-button">READ REVIEW</button>
+                                <div class="movie-rating">
+                                    <i class="fas fa-star"></i>
+                                    <span>8.6</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Comedy Anime -->
+                <div class="movie-list-container" data-genre="comedy" id="comedy">
+                    <h1 class="movie-list-title">COMEDY ANIME</h1>
+                    <div class="movie-list-wrapper">
+                        <div class="movie-list">
+                            <div class="movie-list-item" onclick="openAnimeDetail('Spy x Family', 'https://gifdb.com/images/high/spy-x-family-gif-file-3089kb-svz9ae4adkec5oad.gif', 8.6, 2022, 'Spy Twilight creates a fake family to infiltrate an elite academy and prevent war. His wife Yor is secretly an assassin and daughter Anya is a telepath. Their chaotic household becomes genuine family as they learn to trust and care. (Sources: MyAnimeList, CloverWorks)', '25 Episodes', 'Action, Comedy, Spy' )">
+                                <img class="movie-list-item-img" src="spy.jpg" alt="Spy x Family">
+                                <span class="movie-list-item-title">Spy x Family</span>
+                                <p class="movie-list-item-desc">Heartwarming comedy about a fake family that becomes real, with perfect balance of action and wholesome moments.</p>
+                                <button class="movie-list-item-button">READ REVIEW</button>
+                                <div class="movie-rating">
+                                    <i class="fas fa-star"></i>
+                                    <span>8.6</span>
+                                </div>
+                            </div>
+
+                            <div class="movie-list-item" onclick="openAnimeDetail('Mob Psycho 100', 'https://giffiles.alphacoders.com/218/218985.gif', 8.9, 2016, 'Shigeo Kageyama, a middle schooler with powerful psychic abilities, seeks a normal life and romance. His attempts to suppress his powers lead to comedic situations while his mentor Reigen exploits his abilities for profit. The series balances humor with profound character growth. (Sources: MyAnimeList, Bones Studio)', '37 Episodes','Supernatural,Comedy, Action,School life')">
+                                <img class="movie-list-item-img" src="4.jpg" alt="Mob Psycho 100">
+                                <span class="movie-list-item-title">Mob Psycho 100</span>
+                                <p class="movie-list-item-desc">Unique art style and profound character development make this supernatural series truly special.</p>
+                                <button class="movie-list-item-button">READ REVIEW</button>
+                                <div class="movie-rating">
+                                    <i class="fas fa-star"></i>
+                                    <span>8.9</span>
+                                </div>
+                            </div>
+
+                            <div class="movie-list-item" onclick="openAnimeDetail('Haikyu', 'https://i.pinimg.com/originals/d7/b1/a4/d7b1a4057fd62ae15fba3c3467dc77ed.gif', 8.7, 2014, 'Shoyo Hinata dreams of becoming a volleyball champion despite his short stature. He joins Karasuno High School and discovers teamwork and the joy of competition. The series chronicles intense matches, character development, and the pursuit of volleyball excellence. (Sources: MyAnimeList, Production I.G)', '85 Episodes','Comedy, Coming-of-age, Sports')">
+                                <img class="movie-list-item-img" src="19.jpg" alt="Haikyu">
+                                <span class="movie-list-item-title">Haikyu</span>
+                                <p class="movie-list-item-desc">A highly popular sports manga and anime series about high school volleyball.</p>
+                                <button class="movie-list-item-button">READ REVIEW</button>
+                                <div class="movie-rating">
+                                    <i class="fas fa-star"></i>
+                                    <span>8.7</span>
+                                </div>
+                            </div>
+
+                            <div class="movie-list-item" onclick="openAnimeDetail('Horimiya', 'https://i.pinimg.com/originals/c8/67/f6/c867f6e32eb7bc81760015dfc08f4d05.gif', 8.6, 2021, 'Kyoko Hori presents herself as the perfect, admirable honor student in class, but her true nature involves being an otaku who loves manga and anime. Izumi Miyamura appears as an introverted and plain loner, but secretly has multiple piercings and tattoos, spending nights as a fashionable city dweller. When these two encounter each other by chance, their hidden identities are exposed, and they begin dating in secret. Based on the manga by HERO and adapted by CloverWorks Studio, this romantic comedy follows their journey as they navigate high school life while maintaining their double lives. (Source: MyAnimeList, CloverWorks)', '13 Episodes', 'Romantic Comedy, Slice of Life, School Drama.' )">
+                                <img class="movie-list-item-img" src="44.jpg" alt="Horimiya">
+                                <span class="movie-list-item-title">Horimiya</span>
+                                <p class="movie-list-item-desc">A romance and comedy series about two high school students who discover each other's secret, opposite personalities outside of school</p>
+                                <button class="movie-list-item-button">READ REVIEW</button>
+                                <div class="movie-rating">
+                                    <i class="fas fa-star"></i>
+                                    <span>8.6</span>
+                                </div>
+                            </div>
+
+                            <div class="movie-list-item" onclick="openAnimeDetail('Dan Da Dan', 'https://giffiles.alphacoders.com/223/223039.gif', 8.6, 2024, 'Momo Ayase is a high school girl from a family of spirit mediums who believes in ghosts but scoffs at aliens, while Ken Takakura (Okarun) is a paranormal occultist who believes in aliens but denies ghosts. Their beliefs are shattered when Momo encounters real aliens and awakens psychic abilities after an abduction, and Okarun is possessed by a genuine spirit. Together, they must navigate the truth about both supernatural phenomena and their growing romance. Produced by Science SARU and based on the manga by Yukinobu Tatsu, this action-comedy series blends humor with thrilling supernatural encounters and romantic tension. (Source: MyAnimeList, Science SARU Studio, ANN)', '24 Episodes', 'Action, Romantic, Comedy, Supernatural, Thriller, Science Fiction, Mystery ' )">
+                                <img class="movie-list-item-img" src="32.jpg" alt="Dan Da Dan">
+                                <span class="movie-list-item-title">Dan da Dan</span>
+                                <p class="movie-list-item-desc">In a bizarre twist, both encounters prove the other correct. Momo is abducted by aliens, which accidentally unblocks her chakras and awakens her latent psychic abilities, while Okarun is possessed by a spirit.</p>
+                                <button class="movie-list-item-button">READ REVIEW</button>
+                                <div class="movie-rating">
+                                    <i class="fas fa-star"></i>
+                                    <span>8.6</span>
+                                </div>
+                            </div>
+
+                            <div class="movie-list-item" onclick="openAnimeDetail('Sakamoto Days', 'https://media1.tenor.com/m/cSGIVdSo1F0AAAAC/fist-bump-shin-asakura.gif',8.5, 2024,'Taro Sakamoto was once the most feared and skilled hitman alive, known throughout the underworld for his unmatched abilities. However, he retired from his life of crime for love, falling head over heels for a convenience store clerk and starting a peaceful family life. Now, despite wanting to stay out of the game, his past catches up with him as former enemies and criminal organizations discover his whereabouts. Forced to fight like never before to protect his family, Sakamoto must balance his desire for normalcy with the inevitable danger that his past brings. Based on the manga by Yuto Tsukumo and produced by Dainippon Animation, this action-comedy series follows a retired legendary assassin navigating fatherhood and unwanted battles. (Source: MyAnimeList, Dainippon Animation, ANN)','22 Episodes','Action, Comedy, Shonen Manga')">
+                                <img class="movie-list-item-img" src="38.jpg" alt="Sakamoto Days">
+                                <span class="movie-list-item-title">Sakamoto Days</span>
+                                <p class="movie-list-item-desc">Taro Sakamoto, a legendary hitman who retires to live a peaceful life with his family after falling in love with a convenience store clerk</p>
+                                <button class="movie-list-item-button">READ REVIEW</button>
+                                <div class="movie-rating">
+                                    <i class="fas fa-star"></i>
+                                    <span>9.0</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Fantasy Anime -->
+                <div class="movie-list-container" data-genre="fantasy" id="fantasy">
+                    <h1 class="movie-list-title">FANTASY ANIME</h1>
+                    <div class="movie-list-wrapper">
+                        <div class="movie-list">
+                            <div class="movie-list-item" onclick="openAnimeDetail('Spirited Away', 'https://i.pinimg.com/originals/ee/32/3e/ee323e09138f3efc5c3dc7dabb40ba59.gif', 9.3, 2001, 'Chihiro, a ten-year-old girl, stumbles into a magical world where she encounters gods, witches, and spirits inhabiting a grand bathhouse. After her parents are transformed into pigs for eating without permission, Chihiro must navigate this strange realm and reclaim her identity and freedom. The film explores themes of greed, identity, and environmentalism as Chihiro works as a servant for Yubaba, the witchy bathhouse operator. Directed by Hayao Miyazaki and produced by Studio Ghibli, this critically acclaimed film won the Academy Award for Best Animated Feature and remains a masterpiece of visual storytelling combining magical realism with deeper philosophical meaning. (Source: MyAnimeList, Studio Ghibli, ANN)', 'Movie','Fantasy, Adventure')">
+                                <img class="movie-list-item-img" src="24.jpg" alt="Spirited Away">
+                                <span class="movie-list-item-title">Spirited Away</span>
+                                <p class="movie-list-item-desc">Studio Ghibli's masterpiece that combines magical storytelling with breathtaking hand-drawn animation.</p>
+                                <button class="movie-list-item-button">READ REVIEW</button>
+                                <div class="movie-rating">
+                                    <i class="fas fa-star"></i>
+                                    <span>9.3</span>
+                                </div>
+                            </div>
+
+                            <div class="movie-list-item" onclick="openAnimeDetail('Fullmetal Alchemist', 'https://i.pinimg.com/originals/26/df/85/26df85d53a29ed1b7087d75e88394867.gif', 9.5, 2005, 'Brothers Edward and Alphonse Elric attempt forbidden alchemy to resurrect their deceased mother, but the ritual catastrophically fails. Edward loses an arm and a leg, while Alphonse loses his entire body and has his soul bound to a metal armor. Determined to restore themselves, they search for the Philosophers Stone while uncovering dark governmental conspiracies and alchemical truths. The 2003 anime series, produced by Bones, offers a darker, original storyline diverging from the manga with philosophical depth, intense action sequences, and emotional character development. (Source: MyAnimeList, Bones Studio, ANN)', '51 Episodes','Action, Adventure, Dark Fantasy, Steampunk, Thriller')">
+                                <img class="movie-list-item-img" src="metal.jpg" alt="Fullmetal Alchemist">
+                                <span class="movie-list-item-title">Fullmetal Alchemist</span>
+                                <p class="movie-list-item-desc">Perfect blend of action, philosophy, and emotional depth with one of the most satisfying conclusions in anime.</p>
+                                <button class="movie-list-item-button">READ REVIEW</button>
+                                <div class="movie-rating">
+                                    <i class="fas fa-star"></i>
+                                    <span>9.5</span>
+                                </div>
+                            </div>
+
+                            <div class="movie-list-item" onclick="openAnimeDetail('One Piece', 'https://www.gifcen.com/wp-content/uploads/2022/06/one-piece-gif.gif', 9.1, 1999, 'Monkey D. Luffy dreams of becoming the Pirate King and finding the legendary treasure One Piece. After consuming a Devil Fruit that grants him rubber powers, Luffy sets sail from his small village to gather the strongest crew and conquer the seas. Alongside his loyal Straw Hat Pirates including Roronoa Zoro, Nami, Usopp, and others, Luffy faces powerful enemies, uncovers world secrets, and grows as a captain. Based on Eiichiro Odas legendary manga and produced by Toei Animation, One Piece is the longest-running adventure anime with epic world-building, character development, and ongoing battles against governmental oppression. (Source: MyAnimeList, Toei Animation, ANN)', '1000+ Episodes','Adventure, Fantasy, Comedy, Science Fiction')">
+                                <img class="movie-list-item-img" src="9.jpg" alt="One Piece">
+                                <span class="movie-list-item-title">One Piece</span>
+                                <p class="movie-list-item-desc">The longest-running adventure that continues to captivate audiences with its epic world-building and character arcs.</p>
+                                <button class="movie-list-item-button">READ REVIEW</button>
+                                <div class="movie-rating">
+                                    <i class="fas fa-star"></i>
+                                    <span>9.1</span>
+                                </div>
+                            </div>
+
+                            <div class="movie-list-item" onclick="openAnimeDetail('Black Clover', 'https://i.pinimg.com/originals/f8/f8/af/f8f8afe6b746e5775bd3cf6edc100907.gif', 8.6, 2017, 'Asta is a young boy born without any magical power in the Clover Kingdom, a world where magic is essential and determines ones value in society. Despite this handicap, Asta is determined to become the Wizard King, the most powerful mage in the realm. His rival Yuno, a royal bloodline orphan raised alongside him, possesses prodigious magical talent and seemingly insurmountable advantages. Their intense rivalry pushes Asta to join the Black Bull squad and prove that determination and strength of spirit can overcome magical limitations. Produced by Pierrot and based on Yuki Tabatas manga, Black Clover combines action-packed combat, character growth, and themes of perseverance and friendship. (Source: MyAnimeList, Pierrot Studio, ANN)', '170 Episodes', 'Action, Adventure, Fantasy' )">
+                                <img class="movie-list-item-img" src="30.jpg" alt="Black Clover">
+                                <span class="movie-list-item-title">Black Clover</span>
+                                <p class="movie-list-item-desc">Anime series about Asta and Yuno, two orphans who grow up in a world where magic is commonplace and aspire to become the Wizard King, the most powerful mage in the Clover Kingdom</p>
+                                <button class="movie-list-item-button">READ REVIEW</button>
+                                <div class="movie-rating">
+                                    <i class="fas fa-star"></i>
+                                    <span>8.6</span>
+                                </div>
+                            </div>
+
+                            <div class="movie-list-item" onclick="openAnimeDetail('Howls Moving Castle', 'https://i.pinimg.com/originals/93/5c/27/935c27cec33d361415dac1cdbd201d90.gif', 8.7, 2004, 'Sophie, an ordinary young hat maker, is cursed by the Witch of the Waste and transformed into an elderly woman. Desperate to break the curse, she seeks help from the mysterious wizard Howl, who lives in a moving castle filled with magic and wonder. As Sophie enters his world as his housekeeper, she discovers Howls troubled past and emotional depth beneath his charming facade. The story explores themes of self-acceptance, love, and the destructive nature of war within a richly detailed fantasy world. Directed by Hayao Miyazaki and produced by Studio Ghibli, this film adapts Diana Wynne Jones novel with stunning steampunk aesthetics and a pacifist anti-war message. (Source: MyAnimeList, Studio Ghibli, ANN)', 'Movie','Romance, Fantasy, Adventure, Steampunk')">
+                                <img class="movie-list-item-img" src="26.jpg" alt="Howl Moving Castle">
+                                <span class="movie-list-item-title">Howl's Moving Castle</span>
+                                <p class="movie-list-item-desc">The novel is set in the magical kingdom of Ingary, a land where fairy-tale elements like seven-league boots, witches, and wizards are an accepted part of life.</p>
+                                <button class="movie-list-item-button">READ REVIEW</button>
+                                <div class="movie-rating">
+                                    <i class="fas fa-star"></i>
+                                    <span>8.7</span>
+                                </div>
+                            </div>
+
+                            <div class="movie-list-item" onclick="openAnimeDetail('That time I got Reincarnated as a Slime', 'https://i.pinimg.com/originals/52/33/65/523365234177109924934a9478c680b7.gif', 9.0, 2018, 'Satoru Mikami, an ordinary Japanese businessman, is killed by accident and reborn as a slime monster in a fantasy world. Given the unique power to consume anything and gain its abilities, Rimuru Tempest begins an incredible journey to build a nation where monsters and humans can coexist peacefully. Accompanied by diverse allies including Goblins, Ogres, and Spiders, Rimuru grows stronger and attracts more followers to his budding monster nation. Produced by 8bit and based on Fuse web novel and light novel series, TenSura combines action, world-building, character development, and a progressive fantasy narrative with isekai elements. (Source: MyAnimeList, 8bit Studio, ANN)','48 Episodes','Fantasy, Isekai, Adventure')">
+                                <img class="movie-list-item-img" src="ww.avif" alt="That time I got Reincarnated as a Slime">
+                                <span class="movie-list-item-title">That time I got Reincarnated as a Slime</span>
+                                <p class="movie-list-item-desc">The series That Time I Got Reincarnated as a Slime (TenSura) features numerous major battles as protagonist Rimuru Tempest builds his nation and interacts with various powers.</p>
+                                <button class="movie-list-item-button">READ REVIEW</button>
+                                <div class="movie-rating">
+                                    <i class="fas fa-star"></i>
+                                    <span>9.0</span>
+                                </div>
+                            </div>
+
+                            <div class="movie-list-item" onclick="openAnimeDetail('Solo leveling', 'https://i.redd.it/wqbfgxj67brc1.gif', 8.5, 2024, 'Sung Jinwoo, once dismissed as the weakest Hunter in existence, transforms dramatically after encountering a double dungeon and a mysterious system that grants him the ability to grow stronger by completing quests and leveling up his powers. Unlike other Hunters bound by fixed abilities, Jinwoo discovers he can level up infinitely, gradually gaining superhuman strength, speed, and combat skills. His journey sees him rising from E-rank hunter to becoming one of the most powerful warriors, all while uncovering the true nature of dungeons and mysterious forces at play. Produced by A-1 Pictures and based on Chu-Gong web novel adapted as a Korean manhwa by Sung-rak Jang, Solo Leveling combines dark action sequences, character progression, and supernatural mystery. (Source: MyAnimeList, A-1 Pictures, ANN)', '24 Episodes','Action, Adventure, Fantasy, Dark Fantasy')">
+                                <img class="movie-list-item-img" src="48.jpg" alt="Solo leveling">
+                                <span class="movie-list-item-title">Solo Leveling</span>
+                                <p class="movie-list-item-desc">Ten years ago, mysterious portals called Gates appeared, connecting the real world to a dimension filled with magic beasts and monsters.</p>
+                                <button class="movie-list-item-button">READ REVIEW</button>
+                                <div class="movie-rating">
+                                    <i class="fas fa-star"></i>
+                                    <span>8.5</span>
+                                </div>
+                            </div>
+
+                            <div class="movie-list-item" onclick="openAnimeDetail('Violet Evergarden', 'https://64.media.tumblr.com/9e0581348d9b7bb85ed204f34a012c36/tumblr_pewbzzCvqU1vz5npso2_540.gifv', 8.5, 2018, 'Violet Evergarden, a former soldier who lost both her arms in war, is fitted with mechanical prosthetics and begins working as an Auto Memory Doll at a letter-writing agency. Her job is to write letters for clients while maintaining emotional distance, but through writing deeply personal correspondence, she gradually learns about human emotions and what it truly means to connect with others. As she helps people express their deepest feelings through letters, Violet searches for the meaning of the words her commanding officer once spoke to her. Produced by Kyoto Animation and based on Kana Akatsukis light novel, Violet Evergarden explores themes of love, loss, healing, and human connection through visually stunning animation and emotionally resonant storytelling. (Source: MyAnimeList, Kyoto Animation, ANN)', '13 Episodes','Drama, Fantasy, Steampunk')">
+                                <img class="movie-list-item-img" src="v.jpg" alt="Violet Evergarden">
+                                <span class="movie-list-item-title">Violet Evergarden</span>
+                                <p class="movie-list-item-desc">Visually stunning series that explores human emotions through beautiful storytelling and animation.</p>
+                                <button class="movie-list-item-button">READ REVIEW</button>
+                                <div class="movie-rating">
+                                    <i class="fas fa-star"></i>
+                                    <span>8.5</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Romance Anime -->
+                <div class="movie-list-container" data-genre="romance" id="romance">
+                    <h1 class="movie-list-title">ROMANCE ANIME</h1>
+                    <div class="movie-list-wrapper">
+                        <div class="movie-list">
+                            <div class="movie-list-item" onclick="openAnimeDetail('Your Name', 'https://i.pinimg.com/originals/b1/76/7a/b1767a9e6aeb814387bc69bca5171484.gif',8.0,2016,'Taki, a high school boy living in Tokyo, and Mitsuha, a girl from a rural mountain town, mysteriously swap bodies repeatedly despite never meeting. Taki experiences life as Mitsuha in the countryside while discovering her town is threatened by a comet impact predicted to occur in three years. As they gradually grow to understand and care for each other through their unique connection, they race against fate to prevent the disaster and find one another in the real world. Directed by Makoto Shinkai and produced by CoMix Wave Films, Your Name is a phenomenon that combines supernatural mystery, romance, beautiful visuals, and a gripping race against time. (Source: MyAnimeList, CoMix Wave Films, ANN)','Movie','Drama, Romance, Fantasy, Supernatural, School Life')">
+                                <img class="movie-list-item-img" src="https://images.gr-assets.com/hostedimages/1594040490ra/29770149.gif" alt="Your Name">
+                                <span class="movie-list-item-title">Your Name</span>
+                                <p class="movie-list-item-desc">Experience the magic of anime storytelling. From Studio Ghibli classics to modern masterpieces, explore detailed reviews and discover hidden gems in the vast world of Japanese animation.</p>
+                                <button class="movie-list-item-button">READ REVIEW</button>
+                                <div class="movie-rating">
+                                    <i class="fas fa-star"></i>
+                                    <span>8.0</span>
+                                </div>
+                            </div>
+
+                            <div class="movie-list-item" onclick="openAnimeDetail('Your Lie in April', 'https://i.pinimg.com/originals/3e/b1/53/3eb1532f87ee35e0d54805774b86f8b6.gif', 8.7, 2014, 'Kousei Arima, a former piano prodigy, lost his ability to hear music after his mother death, causing him to abandon his musical career and withdraw from others. His monotone life changes when he meets Kaori Miyazono, a free-spirited violinist with an unorthodox playing style and infectious passion for music. Though Kaori appears to have romantic feelings for another person, she encourages Kousei to reclaim his musical talent and return to the piano. As Kousei rediscovers his love for music, deeper emotional truths emerge about Kaori and the bonds connecting the four main characters. Produced by A-1 Pictures and based on Naoshi Arakawas manga, Your Lie in April is a emotional drama that explores music, love, grief, and personal growth. (Source: MyAnimeList, A-1 Pictures, ANN)', '22 Episodes','Drama, Music, Romance, School Life')">
+                                <img class="movie-list-item-img" src="18.jpg" alt="Your Lie in April">
+                                <span class="movie-list-item-title">Your lie in April</span>
+                                <p class="movie-list-item-desc">A traumatized piano prodigy finds his world "monotone" until a free-spirited violinist enters his life, leading him back to music.</p>
+                                <button class="movie-list-item-button">READ REVIEW</button>
+                                <div class="movie-rating">
+                                    <i class="fas fa-star"></i>
+                                    <span>8.7</span>
+                                </div>
+                            </div>
+
+                            <div class="movie-list-item" onclick="openAnimeDetail('Ride your Wave', 'https://i.pinimg.com/originals/30/d6/2e/30d62e4eecd01a57f270e253bc31d086.gif', 8.6, 2019, 'Hinako, a college student and passionate surfer, falls in love with Minato, a dedicated and selfless firefighter who risks his life saving others. Their romantic connection develops through their shared love of water and discovery of each others dreams and vulnerabilities. Tragedy strikes when Minato saves Hinako during a dangerous incident and disappears, seemingly lost to the ocean. Haunted by his memory, Hinako returns to surfing as a way to feel close to him and processes her grief. Directed by Masako Shinohara and produced by Science SARU, Ride Your Wave explores love transcending death, with water and surfing as metaphors for life challenges. (Source: MyAnimeList, Science SARU, ANN)', 'Movie', 'Romance, Drama, Fantasy' )">
+                                <img class="movie-list-item-img" src="46.jpg" alt="Ride your Wave">
+                                <span class="movie-list-item-title">Ride your Wave</span>
+                                <p class="movie-list-item-desc">tells a story of love, loss, and self-discovery, using surfing and water as central metaphors for facing life's challenges</p>
+                                <button class="movie-list-item-button">READ REVIEW</button>
+                                <div class="movie-rating">
+                                    <i class="fas fa-star"></i>
+                                    <span>8.6</span>
+                                </div>
+                            </div>
+
+                            <div class="movie-list-item" onclick="openAnimeDetail('A Whisker Way', 'https://i.pinimg.com/originals/53/74/60/537460ef0012ec5dc81926266a640dc9.gif', 8.6, 2020, 'Miyo Sasaki, a junior high school girl, discovers a magical mask that allows her to transform into a cat whenever she wears it. Using this ability, she attempts to get close to her crush, Kento Hinode, as a cute cat to win his affection. However, her attempts at romance become increasingly complicated as other animals gain the ability to transform too, including a mysterious white cat who harbors his own feelings for Miyo. The film blends comedy, romance, and fantasy as Miyo learns what it truly means to express love while also accepting herself. Directed by Masaaki Yuasa and produced by Science SARU, A Whisker Away combines whimsy with emotional depth and beautiful animation. (Source: MyAnimeList, Science SARU, ANN)', 'Movie', 'Romance, Fantasy, Drama, Adventure' )">
+                                <img class="movie-list-item-img" src="43.jpg" alt="A Whisker Way">
+                                <span class="movie-list-item-title">A Whisker Way</span>
+                                <p class="movie-list-item-desc">a 2020 Japanese anime film about a junior high student, Miyo Sasaki, who can transform into a cat to get closer to her crush, Kento Hinode</p>
+                                <button class="movie-list-item-button">READ REVIEW</button>
+                                <div class="movie-rating">
+                                    <i class="fas fa-star"></i>
+                                    <span>8.6</span>
+                                </div>
+                            </div>
+
+                            <div class="movie-list-item" onclick="openAnimeDetail('Suzume', 'https://64.media.tumblr.com/30e87887889bda25171e7131b33aa78e/a0a816c22620d3ff-59/s540x810/a24f1095e2fda3edd5513f3c08c9ed55fa62093a.gifv41.jpg', 8.6, 2022, 'Suzume Iwato, a 17-year-old girl living in Kyushu, meets a mysterious young man named Souta while traveling. He reveals he is traveling across Japan to close supernatural doors, closing them prevents catastrophic earthquakes that would devastate the country. Suzume joins Souta in this urgent mission, discovering doors connected to a decaying otherworldly realm. As she closes doors and witnesses the consequences of leaving them open, Suzume grows emotionally and spiritually while developing feelings for Souta. Directed by Makoto Shinkai and produced by CoMix Wave Films, Suzume continues Shinkai signature blend of magical realism, romance, stunning visuals, and themes of interconnection and responsibility. (Source: MyAnimeList, CoMix Wave Films, ANN)', 'Movie', 'Adventure, Drama, Romance' )">
+                                <img class="movie-list-item-img" src="41.jpg" alt="Suzume">
+                                <span class="movie-list-item-title">Suzume</span>
+                                <p class="movie-list-item-desc">Suzume discovers doors to a decaying world. She embarks on a journey to close them, confronting magical forces and her own emotional growth.</p>
+                                <button class="movie-list-item-button">READ REVIEW</button>
+                                <div class="movie-rating">
+                                    <i class="fas fa-star"></i>
+                                    <span>8.6</span>
+                                </div>
+                            </div>
+
+                            <div class="movie-list-item" onclick="openAnimeDetail('Ponyo', 'https://media1.giphy.com/media/v1.Y2lkPTZjMDliOTUyZXU2Y2c2NXdoZjQ4N295YTZ4OGtwZXR4d2Jxa2Y3bGJldXQwbzEwcCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/ihTJrdqwg3RFM9DN75/giphy-downsized.gif', 8.7, 2008, 'Ponyo, a magical goldfish with a human face who dreams of becoming human, escapes her underwater sanctuary and befriends Sosuke, a five-year-old boy. As Ponyo falls in love with Sosuke, her desire to become human grows stronger, causing magical chaos in the world. The delicate balance between the human and magical realms is disrupted, and only the pure love between Ponyo and Sosuke can restore harmony. Directed by Hayao Miyazaki and produced by Studio Ghibli, Ponyo blends whimsical fantasy elements with themes of childhood, love, environmental change, and the bond between different worlds. (Source: MyAnimeList, Studio Ghibli, ANN)', 'Movie','Adventure, Comedy, Romance, Fantasy')">
+                                <img class="movie-list-item-img" src="25.jpg" alt="Ponyo">
+                                <span class="movie-list-item-title">Ponyo</span>
+                                <p class="movie-list-item-desc">The movie blends magical, surreal elements with the simple, heartwarming dynamics of childhood and family life, which is characteristic of director Hayao Miyazaki's work.</p>
+                                <button class="movie-list-item-button">READ REVIEW</button>
+                                <div class="movie-rating">
+                                    <i class="fas fa-star"></i>
+                                    <span>8.7</span>
+                                </div>
+                            </div>
+
+                            <div class="movie-list-item" onclick="openAnimeDetail('Darling in the Franxx', 'https://i.pinimg.com/originals/55/2d/95/552d9506a96d3aa0a4c260fc22fb5eb1.gif', 8.7, 2018, 'In a post-apocalyptic future, humanity lives in mobile fortress cities called Plantations, and children are raised to pilot biomechanical mecha robots called Franxx to defend against giant alien organisms. Hiro, a seemingly ordinary boy and failed pilot candidate, partners with Zero Two, a mysterious girl with dangerous hybrid genetics and a high success rate as a Franxx pilot. As they pilot together, their connection deepens beyond the cockpit, developing into a complex romance amidst war, conspiracy, and existential threats. Produced by A-1 Pictures and Trigger, Darling in the Franxx blends mecha action with romance, mystery, and philosophical themes about humanity and identity. (Source: MyAnimeList, A-1 Pictures, Trigger, ANN)', '24 Episodes','Action, Adventure, Sci-Fi, Mecha, Drama, Romance')">
+                                <img class="movie-list-item-img" src="17.jpg" alt="Darling in the Franxx">
+                                <span class="movie-list-item-title">Darling in the Franxx</span>
+                                <p class="movie-list-item-desc">A 2018 Japanese sci-fi mecha romance anime series set in a dystopian future where children pilot giant robots to defend humanity from mysterious monsters called Klaxosaurs.</p>
+                                <button class="movie-list-item-button">READ REVIEW</button>
+                                <div class="movie-rating">
+                                    <i class="fas fa-star"></i>
+                                    <span>8.7</span>
+                                </div>
+                            </div>
+
+                            <div class="movie-list-item" onclick="openAnimeDetail('Anohana: The Flower We Saw That Day', 'https://media1.tenor.com/m/OyOoobD6YHIAAAAC/anohana-ano-hi-mita-hanano-namaewo-bokutachiwa-mada-shiranaimeikohonma.gif', 8.6, 2011, 'Jinta Yadomi, a reclusive teenager, encounters the ghost of Menma, his childhood friend who died a decade earlier, asking him to help fulfill her forgotten wish. Jinta reunites his estranged childhood friend group known as the Super Peace Busters to help Menma find peace and move on. As they work together to uncover her final wish, the group confronts their own regrets, trauma, and the ways their friendships have been strained since Menmas death. Produced by A-1 Pictures and based on an original story, Anohana is a deeply emotional supernatural drama exploring grief, nostalgia, regret, redemption, and the bonds of childhood friendship. (Source: MyAnimeList, A-1 Pictures, ANN)', '11 Episodes', 'Drama, Supernatural, Romance' )">
+                                <img class="movie-list-item-img" src="28.jpg" alt="Anohana: The Flower We Saw That Day">
+                                <span class="movie-list-item-title">Anohana: The Flower We Saw That Day</span>
+                                <p class="movie-list-item-desc">An emotional drama anime about a group of former childhood friends who have drifted apart after a tragic accident killed their friend, Menma.</p>
+                                <button class="movie-list-item-button">READ REVIEW</button>
+                                <div class="movie-rating">
+                                    <i class="fas fa-star"></i>
+                                    <span>8.6</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
